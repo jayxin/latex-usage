@@ -1,0 +1,59 @@
+\documentclass{commons/qbook}
+
+% 参考文献数据库
+%\addbibresource{contents/references.bib}
+
+\usepackage{currfile-abspath}
+\getabspath{\jobname.log}
+\ifthenelse{\equal{\theabsdir}{\thepwd}}% using ifthen package
+%\ifdefstrequal{\theabsdir}{\thepwd}% using etoolbox package
+    {}{\PassOptionsToPackage{outputdir=\theabsdir}{minted}}
+\typeout{just just \theabsdir}
+\usepackage{commons/boxie}
+
+\begin{document}
+% 封面
+\input{contents/cover.tex}
+
+% 前言和概览用罗马数字作为页码
+\frontmatter
+
+% 目录 -------
+\pagestyle{empty}
+\tableofcontents
+\cleardoublepage
+%-----
+
+% 正文 -------
+% 正文用阿拉伯数字作为页码
+\mainmatter
+
+\pagestyle{fancy}
+\setcounter{page}{0}
+
+% 文字
+\input{contents/chapters/text.tex}
+
+% 图
+\input{contents/chapters/figure.tex}
+
+% 表
+\input{contents/chapters/table.tex}
+
+% 公式
+\input{contents/chapters/formula.tex}
+
+% 页面
+\input{contents/chapters/page.tex}
+
+% 字体
+\input{contents/chapters/font.tex}
+%-----
+
+\backmatter
+
+% 打印参考文献
+%\printbibliography[heading=bibintoc]
+\end{document}
+
+% vim: set fdm=marker fmr=\ -------,-----:
