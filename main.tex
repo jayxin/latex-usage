@@ -3,12 +3,36 @@
 % 参考文献数据库
 %\addbibresource{contents/references.bib}
 
-\usepackage{currfile-abspath}
-\getabspath{\jobname.log}
-\ifthenelse{\equal{\theabsdir}{\thepwd}}% using ifthen package
-%\ifdefstrequal{\theabsdir}{\thepwd}% using etoolbox package
-    {}{\PassOptionsToPackage{outputdir=\theabsdir}{minted}}
-\typeout{just just \theabsdir}
+%\usepackage{currfile-abspath}
+%\getabspath{\jobname.log}
+%\ifthenelse{\equal{\theabsdir}{\thepwd}}% using ifthen package
+%%\ifdefstrequal{\theabsdir}{\thepwd}% using etoolbox package
+%    {}{\PassOptionsToPackage{outputdir=\theabsdir}{minted}}
+%%\typeout{just just \theabsdir}
+
+\usepackage{xparse}
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\getenv}{om}
+ {
+  \sys_get_shell:nnN { kpsewhich ~ --var-value ~ #2 } { } \l_tmpa_tl
+  \tl_trim_spaces:N \l_tmpa_tl
+  \IfNoValueTF { #1 }
+   {
+    \tl_use:N \l_tmpa_tl
+   }
+   {
+    \tl_set_eq:NN #1 \l_tmpa_tl
+   }
+ }
+
+\ExplSyntaxOff
+
+\getenv[\theabsdir]{TL_BUILD_DIR}
+\PassOptionsToPackage{outputdir=\theabsdir}{minted}
+\typeout{output dir: \theabsdir}
+
 \usepackage{commons/boxie}
 
 \begin{document}
@@ -48,6 +72,9 @@
 
 % 字体
 \input{contents/chapters/font.tex}
+
+% 编译
+\input{contents/chapters/compile.tex}
 %-----
 
 \backmatter

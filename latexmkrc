@@ -10,6 +10,10 @@ $clean_ext = "synctex.gz acn acr alg aux bbl bcf blg brf fdb_latexmk glsdefs glg
 $preview_mode = 0;
 $pdf_update_method = 0;
 
-my $tl_build_dir = $ENV{'TL_BUILD_DIR'} // '.';
+#my $tl_build_dir = $ENV{'TL_BUILD_DIR'} // '.';
+unless (exists $ENV{'TL_BUILD_DIR'} && $ENV{'TL_BUILD_DIR'} ne '') {
+  $ENV{'TL_BUILD_DIR'} = $ENV{'PWD'};
+}
+my $tl_build_dir = $ENV{'TL_BUILD_DIR'};
 $out_dir = "$tl_build_dir";
 $aux_dir = "$tl_build_dir";
